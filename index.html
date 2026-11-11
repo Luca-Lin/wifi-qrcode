@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WiFi QR Code 產生器</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="qrcode.min.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span><span class="title">WiFi QR Code 產生器</span></h1>
+      <p class="subtitle">輸入 WiFi 資訊，產生 QR Code，讓訪客掃碼即可連線</p>
+    </header>
+
+    <div class="layout">
+      <form id="wifi-form" class="card" autocomplete="off" novalidate>
+        <label for="ssid">網路名稱（SSID）</label>
+        <input id="ssid" type="text" placeholder="例如：MyHome-WiFi" aria-required="true" />
+
+        <label for="encryption">加密方式</label>
+        <select id="encryption">
+          <option value="WPA2/WPA3" selected>WPA2 / WPA3 混合（Transition Mode）</option>
+          <option value="WPA">WPA / WPA2</option>
+          <option value="SAE">僅 WPA3（SAE，部分 iPhone／舊手機可能無法掃描）</option>
+          <option value="WEP">WEP</option>
+          <option value="nopass">無密碼（開放網路）</option>
+        </select>
+
+        <div id="password-group">
+          <label for="password">密碼</label>
+          <div class="password-wrap">
+            <input id="password" type="password" placeholder="輸入 WiFi 密碼" />
+            <button type="button" id="toggle-password" aria-label="顯示密碼" aria-pressed="false">
+              <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-6.4 0-10-7-10-7a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c6.4 0 10 7 10 7a18.5 18.5 0 0 1-2.16 3.19"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <label class="checkbox">
+          <input id="hidden" type="checkbox" />
+          隱藏網路（SSID 不廣播）
+        </label>
+
+        <button type="submit" class="primary">產生 QR Code</button>
+        <p id="error" class="error" role="alert"></p>
+      </form>
+
+      <section id="result" class="card result">
+        <div id="print-area">
+          <canvas id="qr-canvas" width="320" height="320" role="img" aria-label="尚未產生 QR Code"></canvas>
+          <div class="info">
+            <p class="info-ssid" id="info-ssid">—</p>
+            <p class="info-pass" id="info-pass"></p>
+          </div>
+        </div>
+        <p class="hint" id="hint">填寫左側資料後即可產生 QR Code</p>
+        <div class="actions">
+          <button type="button" id="download" disabled>下載 PNG</button>
+          <button type="button" id="print" disabled>列印</button>
+        </div>
+      </section>
+    </div>
+
+    <footer>所有資料皆在瀏覽器本機處理，不會上傳到任何伺服器。</footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
